@@ -1,0 +1,35 @@
+name: Preview
+
+on:
+  # Run on all pull requests that update the paper. This should list our
+  # paper directory if we have one, or all paper files if they are in
+  # our project root folder.
+  pull_request:
+    paths:
+      - 'paper/**'
+  # Run every time a paper change is pushed.
+  push:
+    paths-ignore:
+      - 'paper/**'
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create draft PDF
+        uses: 'docker://openjournals/inara:latest'
+        with:
+          args: >-
+            -o pdf paper/paper.md
+
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: paper
+          # This is the output path where Pandoc will write the compiled
+          # PDF. Note, this should be the same directory as the input
+          # paper.md
+          path: paper/paper.pdf
