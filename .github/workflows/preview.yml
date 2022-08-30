@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create draft artifacts
-        uses: 'docker://openjournals/inara:latest'
+        uses: 'docker://ghcr.io/openjournals/inara:latest'
         with:
           args: >-
             -o pdf,docx paper/paper.md
